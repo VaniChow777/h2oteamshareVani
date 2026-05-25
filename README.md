@@ -1,6 +1,6 @@
-# Codex Skill Backup
+# H2O Team Shared Codex Skills
 
-Personal backup repository for Codex skills.
+Shared Codex skills for the H2O team. This repository is public for viewing and downloading, while write access is managed by the owner.
 
 ## Skills
 
