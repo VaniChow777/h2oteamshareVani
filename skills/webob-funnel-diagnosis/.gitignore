@@ -1,0 +1,6 @@
+.DS_Store
+.env
+output/
+__pycache__/
+*.pyc
+*_raw.json

@@ -1,0 +1,4 @@
+interface:
+  display_name: "WebOB Funnel Diagnosis"
+  short_description: "Diagnose WebOB member, first-upsell, and second-upsell funnel value."
+  default_prompt: "Pull and diagnose integrated WebOB funnel performance across one or more Sensors funnel IDs, including member payment, first upsell, second upsell, penetration, authorization rate, ARPU, ARPPU, SKU mix, country filters, custom periods, and whether the core issue is conversion, price mix, or downstream upsell recovery."

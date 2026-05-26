@@ -1,9 +1,10 @@
-# H2O Team Shared Codex Skills
+# Codex Skill Backup
 
-Shared Codex skills for the H2O team. This repository is public for viewing and downloading, while write access is managed by the owner.
+Personal backup repository for Codex skills.
 
 ## Skills
 
+- `webob-funnel-diagnosis`
 - `webob-funnel-penetration-pay-compare`
 - `webob-funnel-second-upsell-compare`
 - `webob-funnel-upsell-compare`

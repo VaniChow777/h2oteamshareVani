@@ -1,0 +1,2443 @@
+{
+  "dashboard_id": 1522,
+  "dashboard_name": "【webob】webob周报数据拉取",
+  "source": "Generated from the existing Sensors dashboard bookmark payloads. Contains no credentials.",
+  "queries": {
+    "main_funnel": {
+      "bookmark_id": 23211,
+      "name": "【全家福】funnel_前序ob页面会员付费页_提交支付",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.onboard_pageview_wf_h2o.webfunnel_name",
+          "event.onboard_pageview_wf_h2o.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "from_date": "2026-04-10",
+        "to_date": "2026-04-23",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "14 day",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "onboard_pageview_wf_h2o",
+              "custom_name": "funnel_ob页面展示 index=1",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.onboard_pageview_wf_h2o.page_index",
+                    "function": "equal",
+                    "params": [
+                      "1"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "会员商品页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50000"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "custom_name": "会员提交订单",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$render_index": 2
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "会员支付订单",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$render_index": 2
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "onboard_pageview_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.onboard_pageview_wf_h2o.page_index",
+                    "function": "equal",
+                    "params": [
+                      "1"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50000"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-04-10",
+        "to_date": "2026-04-23",
+        "by_fields": [
+          "event.onboard_pageview_wf_h2o.webfunnel_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "trade_day_mode": false
+      }
+    },
+    "primary_upsell": {
+      "bookmark_id": 23212,
+      "name": "【全家福】funnel_一级增值付费页_一级提交支付",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.view_deal_detail_wf_h2o.webfunnel_name",
+          "event.view_deal_detail_wf_h2o.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "14 day",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "key": "ccwspgd6",
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "增值商品页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50001",
+                      "50054"
+                    ],
+                    "$$render_index": 1
+                  }
+                ]
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "458dj4w3",
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "custom_name": "一级增值提交订单",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "非二级增值"
+                    ],
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "nkzzqtgk",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "一级增值支付完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "非二级增值"
+                    ],
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50001",
+                      "50054"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ]
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "非二级增值"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "非二级增值"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "by_fields": [
+          "event.view_deal_detail_wf_h2o.webfunnel_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "trade_day_mode": false
+      }
+    },
+    "secondary_upsell": {
+      "bookmark_id": 23213,
+      "name": "【全家福】funnel_增值付费页_二级增值付费_二级增值支付",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.view_deal_detail_wf_h2o.webfunnel_name",
+          "event.view_deal_detail_wf_h2o.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "14 day",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "key": "39t29bbm",
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "二级增值页-1",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50013"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "x4ivshpu",
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "custom_name": "二级增值-1 提交订单",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "二级增值"
+                    ],
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "vpds65td",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "二级增值-1 支付完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "二级增值"
+                    ],
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50013"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "submit_vip_order_yoga_dance_muscl_bend",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ]
+                  },
+                  {
+                    "field": "event.submit_vip_order_yoga_dance_muscl_bend.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "二级增值"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "增值"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type_is_double_extra",
+                    "function": "equal",
+                    "params": [
+                      "二级增值"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "by_fields": [
+          "event.view_deal_detail_wf_h2o.webfunnel_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "trade_day_mode": false
+      }
+    },
+    "registration_and_pwa": {
+      "bookmark_id": 23214,
+      "name": "【全家福】funnel_进入ob_会员支付_注册/邮箱合并_app/pwa",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.onboard_pageview_wf_h2o.webfunnel_name",
+          "event.onboard_pageview_wf_h2o.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "14 day",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "key": "ggdwj32h",
+              "event_name": "onboard_pageview_wf_h2o",
+              "custom_name": "进入webob index=1",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.onboard_pageview_wf_h2o.page_index",
+                    "function": "equal",
+                    "params": [
+                      "1"
+                    ],
+                    "$$render_index": 1
+                  }
+                ]
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "upk0qoal",
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "会员商品页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50000",
+                      "50007"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "9suo818j",
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "一级增值商品页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50001",
+                      "50008",
+                      "50054",
+                      "50055"
+                    ],
+                    "$$render_index": 1
+                  }
+                ]
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "0cg4bxtq",
+              "event_name": "view_deal_detail_wf_h2o",
+              "custom_name": "二级增值页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50033",
+                      "50034",
+                      "50013"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "nbb9pqrb",
+              "event_name": "pageview_general_wf_h2o",
+              "custom_name": "funnel注册页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.pageview_general_wf_h2o.page_id",
+                    "function": "equal",
+                    "params": [
+                      "50005"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "h47adzvg",
+              "event_name": "yoga_dance_muscle_register",
+              "custom_name": "注册/邮箱合并完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "equal",
+                    "params": [
+                      "web_ob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "notSet",
+                    "params": [],
+                    "$$searchValue": "注册",
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "isEmpty",
+                    "params": [],
+                    "$$searchValue": "注册",
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "or"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "5s1vni29",
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "custom_name": "pwa/app-含登录页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "filters": [
+                  {
+                    "conditions": [
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                        "function": "equal",
+                        "params": [
+                          "js"
+                        ],
+                        "$$render_index": 1
+                      },
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.page_id",
+                        "function": "equal",
+                        "params": [
+                          "480",
+                          "10151",
+                          "30107",
+                          "30108",
+                          "50016",
+                          "50030",
+                          "50042",
+                          "50015"
+                        ],
+                        "$$render_index": 2
+                      }
+                    ],
+                    "relation": "and",
+                    "$$render_index": 2
+                  }
+                ],
+                "relation": "or"
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "dndyus1o",
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "custom_name": "app",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": ""
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "setMarkLine": false,
+            "groupNames": [
+              "yoga"
+            ],
+            "groups": [
+              1
+            ]
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "onboard_pageview_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.onboard_pageview_wf_h2o.page_index",
+                    "function": "equal",
+                    "params": [
+                      "1"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50000",
+                      "50007"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50001",
+                      "50008",
+                      "50054",
+                      "50055"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "event_name": "view_deal_detail_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.view_deal_detail_wf_h2o.deal_id",
+                    "function": "equal",
+                    "params": [
+                      "50033",
+                      "50034",
+                      "50013"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "pageview_general_wf_h2o",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.pageview_general_wf_h2o.page_id",
+                    "function": "equal",
+                    "params": [
+                      "50005"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            },
+            {
+              "event_name": "yoga_dance_muscle_register",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "equal",
+                    "params": [
+                      "web_ob"
+                    ]
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "notSet",
+                    "params": []
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "isEmpty",
+                    "params": []
+                  }
+                ],
+                "relation": "OR"
+              }
+            },
+            {
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ]
+                  }
+                ],
+                "filters": [
+                  {
+                    "conditions": [
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                        "function": "equal",
+                        "params": [
+                          "js"
+                        ]
+                      },
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.page_id",
+                        "function": "equal",
+                        "params": [
+                          "480",
+                          "10151",
+                          "30107",
+                          "30108",
+                          "50016",
+                          "50030",
+                          "50042",
+                          "50015"
+                        ]
+                      }
+                    ],
+                    "relation": "AND"
+                  }
+                ],
+                "relation": "OR"
+              }
+            },
+            {
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-04-12",
+        "to_date": "2026-04-25",
+        "by_fields": [
+          "event.onboard_pageview_wf_h2o.webfunnel_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "trade_day_mode": false
+      }
+    },
+    "monthly_renewal": {
+      "bookmark_id": 23215,
+      "name": "【全家福】月产品_会员_首续率_不含7天产品",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name",
+          "event.purchase_yoga_dance.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "from_date": "2025-11-01",
+        "to_date": "2025-11-30",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "",
+        "funnel_define": {
+          "max_convert_time": 50400,
+          "steps": [
+            {
+              "key": "8ghmhvg7",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "新增订单支付",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$render_index": 3
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_duration_all",
+                    "function": "equal",
+                    "params": [
+                      "2-月产品-非7天"
+                    ],
+                    "$$searchValue": "webob",
+                    "$$render_index": 4
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$render_index": 6
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            },
+            {
+              "key": "pos6xyjj",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "首续",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$render_index": 1
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 50400,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_duration_all",
+                    "function": "equal",
+                    "params": [
+                      "2-月产品-非7天"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            }
+          ]
+        },
+        "from_date": "2025-11-01",
+        "to_date": "2025-11-30",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "trade_day_mode": false
+      }
+    },
+    "seasonal_renewal": {
+      "bookmark_id": 23216,
+      "name": "【全家福】3月产品_会员_首续率_不含7天产品",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name",
+          "event.purchase_yoga_dance.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "from_date": "2025-09-01",
+        "to_date": "2025-09-30",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "",
+        "funnel_define": {
+          "max_convert_time": 142560,
+          "steps": [
+            {
+              "key": "idwhvhvk",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "新增订单支付",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$render_index": 3
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_duration_all",
+                    "function": "equal",
+                    "params": [
+                      "3-季产品"
+                    ],
+                    "$$searchValue": "webob产品周期",
+                    "$$render_index": 4
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$searchValue": "支付入口",
+                    "$$render_index": 6
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            },
+            {
+              "key": "2fzcikw1",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "首续",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$searchValue": "支付入口",
+                    "$$render_index": 1
+                  }
+                ]
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 142560,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_duration_all",
+                    "function": "equal",
+                    "params": [
+                      "3-季产品"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            },
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ]
+              },
+              "relevance_field": "event.purchase_yoga_dance.product_id_all_product"
+            }
+          ]
+        },
+        "from_date": "2025-09-01",
+        "to_date": "2025-09-30",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "trade_day_mode": false
+      }
+    },
+    "refund_events": {
+      "bookmark_id": 23217,
+      "name": "【全家福】退款金额&退款率",
+      "type": "event",
+      "openapi_path": "/api/v3/analytics/v1/model/segmentation/report",
+      "legacy_payload": {
+        "approx": false,
+        "sampling_factor": 64,
+        "by_fields": [
+          "event.$Anything.all_product_name"
+        ],
+        "filter": {
+          "conditions": [
+            {
+              "field": "event.$Anything.product_id_all_product",
+              "function": "contain",
+              "params": [
+                "webob"
+              ],
+              "$$searchValue": "全",
+              "$$render_index": 1
+            }
+          ]
+        },
+        "measures": [
+          {
+            "events": [
+              "stop_pro_service_all_product_h2o",
+              "purchase_yoga_dance"
+            ],
+            "expression": "sum(event.stop_pro_service_all_product_h2o.all_product_refund_money)/sum(event.purchase_yoga_dance.origin_money)|%2p",
+            "format": "%2p",
+            "expression_denominator_without_group": false,
+            "name": "总退款率",
+            "subjectIdIsUserId": false,
+            "expression_filters": [
+              {},
+              {}
+            ],
+            "editName": "总退款率"
+          }
+        ],
+        "from_date": "2026-03-27",
+        "to_date": "2026-04-25",
+        "unit": "day",
+        "detail_and_rollup": true,
+        "enable_detail_follow_rollup_by_values_rank": true,
+        "sub_task_type": "SEGMENTATION",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "bucket_params": {},
+        "rangeText": "30 day",
+        "arith_rollup": false
+      },
+      "payload_template": {
+        "measures": [
+          {
+            "events": [
+              "stop_pro_service_all_product_h2o",
+              "purchase_yoga_dance"
+            ],
+            "expression": "sum(event.stop_pro_service_all_product_h2o.all_product_refund_money)/sum(event.purchase_yoga_dance.origin_money)|%2p",
+            "format": "%2p",
+            "expression_denominator_without_group": false,
+            "name": "总退款率",
+            "subjectIdIsUserId": false,
+            "expression_filters": [
+              {},
+              {}
+            ],
+            "editName": "总退款率",
+            "transformExpression": "sum(event.stop_pro_service_all_product_h2o.all_product_refund_money)/sum(event.purchase_yoga_dance.origin_money)|%2p",
+            "default_measure_name": "总退款率",
+            "isExpValid": true,
+            "status": "view",
+            "type": "custom"
+          }
+        ],
+        "from_date": "2026-03-27",
+        "to_date": "2026-04-25",
+        "unit": "DAY",
+        "by_fields": [
+          "event.$Anything.all_product_name"
+        ],
+        "filter": {
+          "conditions": [
+            {
+              "field": "event.$Anything.product_id_all_product",
+              "function": "contain",
+              "params": [
+                "webob"
+              ]
+            }
+          ]
+        },
+        "sampling_factor": 64,
+        "rollup": true,
+        "detail_and_rollup": true,
+        "approx": false,
+        "bucket_params": {},
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "arith_rollup": false
+      }
+    },
+    "unsubscribe": {
+      "bookmark_id": 23218,
+      "name": "【全家福】会员新增支付-7日取消订阅",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name",
+          "event.purchase_yoga_dance.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "from_date": "2026-03-27",
+        "to_date": "2026-04-25",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "trends",
+        "trade_day_mode": false,
+        "rangeText": "30 day",
+        "funnel_define": {
+          "max_convert_time": 10080,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "会员新增",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ],
+                    "$$render_index": 3
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$render_index": 4
+                  }
+                ],
+                "relation": "and"
+              },
+              "relevance_field": "event.purchase_yoga_dance.order_id"
+            },
+            {
+              "event_name": "cancel_subscribe_order_all_product_h2o",
+              "custom_name": "",
+              "filter": {},
+              "relevance_field": "event.cancel_subscribe_order_all_product_h2o.order_id"
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "subject_id": "$user_id",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {
+          "lineChartConfig": {
+            "measures": [
+              "conversion_rate"
+            ],
+            "step": "$ALL",
+            "type": "percent",
+            "groups": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "setMarkLine": "false"
+          }
+        }
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 10080,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ],
+                "relation": "AND"
+              },
+              "relevance_field": "event.purchase_yoga_dance.order_id"
+            },
+            {
+              "event_name": "cancel_subscribe_order_all_product_h2o",
+              "filter": {},
+              "relevance_field": "event.cancel_subscribe_order_all_product_h2o.order_id"
+            }
+          ]
+        },
+        "from_date": "2026-03-27",
+        "to_date": "2026-04-25",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "subject_id": "$user_id",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "trade_day_mode": false
+      }
+    },
+    "registration_rate": {
+      "bookmark_id": 23262,
+      "name": "webob-注册率",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "from_date": "2026-05-01",
+        "to_date": "2026-05-07",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "compareKey": "",
+        "compare_from_date": "",
+        "compare_to_date": "",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "funnel",
+        "trade_day_mode": false,
+        "rangeText": "",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "key": "0cg4bxtq",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "webob会员支付完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$searchValue": "购买",
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$searchValue": "场景",
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ],
+                    "$$searchValue": "是否",
+                    "$$render_index": 3
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "10054",
+                      "100039",
+                      "400006",
+                      "50023",
+                      "82",
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$searchValue": "支付",
+                    "$$render_index": 4
+                  }
+                ]
+              },
+              "relevance_field": ""
+            },
+            {
+              "key": "h47adzvg",
+              "event_name": "yoga_dance_muscle_register",
+              "custom_name": "注册/邮箱合并完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "equal",
+                    "params": [
+                      "web_ob"
+                    ],
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "notSet",
+                    "params": [],
+                    "$$searchValue": "注册",
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "isEmpty",
+                    "params": [],
+                    "$$searchValue": "注册",
+                    "$$render_index": 3
+                  }
+                ],
+                "relation": "or"
+              },
+              "relevance_field": ""
+            }
+          ]
+        },
+        "unit": "rollup",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "isSaved": false,
+        "complete_step_rows": true,
+        "config": {}
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "10054",
+                      "100039",
+                      "400006",
+                      "50023",
+                      "82",
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "event_name": "yoga_dance_muscle_register",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "equal",
+                    "params": [
+                      "web_ob"
+                    ]
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "notSet",
+                    "params": []
+                  },
+                  {
+                    "field": "event.yoga_dance_muscle_register.signUpMethod",
+                    "function": "isEmpty",
+                    "params": []
+                  }
+                ],
+                "relation": "OR"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-05-01",
+        "to_date": "2026-05-07",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+08:00",
+        "trade_day_mode": false
+      }
+    },
+    "pwa_arrival_rate": {
+      "bookmark_id": 23263,
+      "name": "webob-到达pwa率",
+      "type": "funnel",
+      "openapi_path": "/api/v3/analytics/v1/model/funnel/report",
+      "legacy_payload": {
+        "calculation_caliber": "uniq",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name",
+          "event.purchase_yoga_dance.$time"
+        ],
+        "bucket_params": {},
+        "by_field_steps": [
+          0,
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00",
+        "from_date": "2026-05-05",
+        "to_date": "2026-05-11",
+        "sampling_factor": 64,
+        "sub_task_type": "FUNNEL",
+        "use_cache": true,
+        "extend_over_end_date": true,
+        "state": "funnel",
+        "rangeText": "",
+        "funnel_define": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "key": "nn7pujwe",
+              "event_name": "purchase_yoga_dance",
+              "custom_name": "webob会员支付完成",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ],
+                    "$$searchValue": "购买的",
+                    "$$render_index": 1
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ],
+                    "$$searchValue": "webob",
+                    "$$render_index": 2
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ],
+                    "$$searchValue": "续订",
+                    "$$render_index": 3
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "10054",
+                      "100039",
+                      "400006",
+                      "50023",
+                      "82",
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ],
+                    "$$searchValue": "支付",
+                    "$$render_index": 4
+                  }
+                ]
+              },
+              "relevance_field": "",
+              "step_measures": []
+            },
+            {
+              "key": "ign9l775",
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "custom_name": "pwa/app-含登录页",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ],
+                    "$$searchValue": "sdk",
+                    "$$render_index": 1
+                  }
+                ],
+                "filters": [
+                  {
+                    "$$render_index": 2,
+                    "conditions": [
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                        "function": "equal",
+                        "params": [
+                          "js"
+                        ],
+                        "$$searchValue": "sdk",
+                        "$$render_index": 2
+                      },
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.page_id",
+                        "function": "equal",
+                        "params": [
+                          "480",
+                          "10151",
+                          "30107",
+                          "30108",
+                          "50016",
+                          "50030",
+                          "50042",
+                          "50015"
+                        ],
+                        "$$searchValue": "页面",
+                        "$$render_index": 3
+                      }
+                    ],
+                    "relation": "or"
+                  }
+                ]
+              },
+              "relevance_field": "",
+              "step_measures": []
+            }
+          ]
+        },
+        "unit": "day",
+        "arith_rollup": false,
+        "diversion_mode": "USER_SINGLE_GROUP",
+        "config": {}
+      },
+      "payload_template": {
+        "funnel": {
+          "max_convert_time": 1440,
+          "steps": [
+            {
+              "event_name": "purchase_yoga_dance",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.purchase_yoga_dance.product_id_all_product",
+                    "function": "contain",
+                    "params": [
+                      "webob"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.webob_product_type",
+                    "function": "equal",
+                    "params": [
+                      "会员"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.all_product_order_type",
+                    "function": "equal",
+                    "params": [
+                      "新增"
+                    ]
+                  },
+                  {
+                    "field": "event.purchase_yoga_dance.purchase_entrance_all_product",
+                    "function": "notEqual",
+                    "params": [
+                      "10054",
+                      "100039",
+                      "400006",
+                      "50023",
+                      "82",
+                      "75",
+                      "10042",
+                      "30033",
+                      "100040",
+                      "50024"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "event_name": "yoga_dance_muscle_bend_pageivew_general",
+              "filter": {
+                "conditions": [
+                  {
+                    "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                    "function": "equal",
+                    "params": [
+                      "Android",
+                      "iOS"
+                    ]
+                  }
+                ],
+                "filters": [
+                  {
+                    "conditions": [
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.$lib",
+                        "function": "equal",
+                        "params": [
+                          "js"
+                        ]
+                      },
+                      {
+                        "field": "event.yoga_dance_muscle_bend_pageivew_general.page_id",
+                        "function": "equal",
+                        "params": [
+                          "480",
+                          "10151",
+                          "30107",
+                          "30108",
+                          "50016",
+                          "50030",
+                          "50042",
+                          "50015"
+                        ]
+                      }
+                    ],
+                    "relation": "AND"
+                  }
+                ],
+                "relation": "OR"
+              }
+            }
+          ]
+        },
+        "from_date": "2026-05-05",
+        "to_date": "2026-05-11",
+        "by_fields": [
+          "event.purchase_yoga_dance.all_product_name"
+        ],
+        "by_field_steps": [
+          0
+        ],
+        "filter": {},
+        "filter_field_steps": [],
+        "unit": "DAY",
+        "rollup": true,
+        "sampling_factor": 64,
+        "use_cache": false,
+        "extend_over_end_date": "true",
+        "calculation_caliber": "uniq",
+        "time_zone_mode": "SERVER",
+        "server_time_zone": "UTC+00:00"
+      }
+    }
+  }
+}
