@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Teamizer"
+  short_description: "Convert personal Codex skills into team-ready skills."
+  default_prompt: "Use $skill-teamizer to merge and harden my personal Codex skills into a team-installable skill, then validate secrets, paths, env setup, and git publishing readiness."
