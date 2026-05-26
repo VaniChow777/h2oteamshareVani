@@ -1,3 +1,0 @@
-display_name: WebOB Funnel Upsell Compare
-short_description: Compare WebOB first-upsell ARPU and SKU mix.
-default_prompt: Compare first-upsell performance across one or more WebOB funnel IDs using default Sensors OpenAPI API Key auth, including custom time windows, same-funnel period comparisons, submit rate, pay rate, ARPU, SKU mix differences, and whether first upsell recovers value from member payment authorization.

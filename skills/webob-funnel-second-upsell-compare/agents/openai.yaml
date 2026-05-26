@@ -1,4 +1,0 @@
-interface:
-  display_name: "WebOB Second Upsell Compare"
-  short_description: "Compare second-upsell ARPU and SKU mix."
-  default_prompt: "Compare second-upsell performance across one or more WebOB funnel IDs using default Sensors OpenAPI API Key auth, including custom time windows, same-funnel period comparisons, submit rate, pay rate, ARPU, SKU mix differences, and whether second upsell deepens payback from member payment authorization."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "WebOB Penetration Pay Compare"
-  short_description: "Compare WebOB penetration, pay, ARPU, SKU mix, and conversion-drop causes."
-  default_prompt: "Compare WebOB penetration and member pay performance across one or more funnel IDs using default Sensors OpenAPI API Key auth, including custom time windows, same-funnel period comparisons, ARPU, authorized-user value, downstream upsell recovery, SKU mix differences, and conversion-drop diagnosis by chain step, country mix, and payment method."
