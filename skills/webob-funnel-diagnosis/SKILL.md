@@ -87,6 +87,8 @@ python3 scripts/diagnose_webob_funnel.py \
 - `--countries`: optional country filter. Omit it for all countries.
 - `--country-field`: Sensors country field override; default is `event.$Anything.$country`.
 - `--top-skus`: SKU rows shown in component Markdown reports.
+- `--baseline-index`: 1-based row index used as the report comparison baseline; default is the first row.
+- `--min-users`: sample-size warning threshold for OB/page users; default is `100`.
 - `--output-dir`: output directory for integrated and component reports.
 - `--debug-raw`: keep component raw JSON files. Omit by default to reduce private-data spread.
 
@@ -98,6 +100,8 @@ The integrated script writes:
 - `webob_funnel_integrated_summary.tsv`: one row per target with member, first-upsell, second-upsell, total ARPU, and authorized-user value
 - `webob_funnel_diagnosis_manifest.json`: generated file manifest
 - component folders: `member/`, `first_upsell/`, `second_upsell/`, each containing summary, SKU detail, and component Markdown reports
+
+The main report includes a one-line conclusion, core attribution, an integrated KPI table, SKU structure summaries, risks, and next-step checks.
 
 ## Interpretation Rules
 
@@ -127,8 +131,8 @@ Do not sum daily rows for aggregate user counts; use aggregate rows from Sensors
 
 ## Output Style
 
-Start with `一句话结论`, then show the integrated table. Explain whether the gap mainly comes from OB scale, penetration, store-page pay efficiency, authorization rate, member ARPU/ARPPU, first-upsell recovery, second-upsell recovery, or SKU mix.
+Start with `一句话结论`, then show core attribution and the integrated table. Explain whether the gap mainly comes from OB scale, penetration, store-page pay efficiency, authorization rate, member ARPU/ARPPU, first-upsell recovery, second-upsell recovery, or SKU mix.
 
 When member ARPU is lower because of low-price/free-trial/0-pay authorization, do not judge it alone. Check `会员+增值ARPU/OB` and `会员+增值ARPPU/授权`.
 
-Link the generated integrated report, integrated TSV, and relevant component SKU TSVs.
+Include SKU structure summaries in the main report when SKU detail exists. Link the generated integrated report, integrated TSV, and relevant component SKU TSVs.

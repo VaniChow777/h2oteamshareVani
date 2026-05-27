@@ -32,6 +32,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--country-field", default="event.$Anything.$country", help="Sensors field used for country filtering.")
     parser.add_argument("--output-dir", default="output", help="Directory for integrated outputs.")
     parser.add_argument("--top-skus", type=int, default=8)
+    parser.add_argument("--baseline-index", type=int, default=1, help="1-based row index used as the comparison baseline in the report.")
+    parser.add_argument("--min-users", type=int, default=100, help="Sample-size warning threshold for OB users or page users.")
     parser.add_argument("--auth", choices=("openapi",), default="openapi", help="Sensors auth mode. Only OpenAPI/API Key is supported.")
     parser.add_argument("--debug-raw", action="store_true", help="Keep component raw JSON files.")
     return parser.parse_args()
@@ -128,6 +130,14 @@ def s(row: dict[str, Any] | None, key: str) -> str:
 
 def pct(numerator: float, denominator: float) -> float:
     return numerator / denominator * 100 if denominator else 0.0
+
+
+def rel_delta(value: float, baseline: float) -> float:
+    return (value - baseline) / baseline * 100 if baseline else 0.0
+
+
+def money(value: float, digits: int = 4) -> str:
+    return f"{value:.{digits}f}"
 
 
 def index_rows(rows: list[dict[str, str]]) -> dict[str, dict[str, str]]:
@@ -233,7 +243,134 @@ def strongest_gap(row: dict[str, Any], baseline: dict[str, Any]) -> str:
     return f"{name}{direction} {suffix}"
 
 
-def write_report(path: Path, rows: list[dict[str, Any]], component_paths: dict[str, dict[str, Path]]) -> None:
+def sku_label(sku: str) -> str:
+    parts = str(sku).split("_")
+    return parts[-1] if parts else str(sku)
+
+
+def sku_price(row: dict[str, str]) -> float | None:
+    raw = row.get("sku_price_from_id")
+    try:
+        return float(raw) if raw not in (None, "") else None
+    except ValueError:
+        return None
+
+
+def summarize_sku_rows(rows: list[dict[str, str]], pay_col: str) -> dict[str, dict[str, Any]]:
+    grouped: dict[str, list[dict[str, str]]] = {}
+    for row in rows:
+        key = row.get("target_key")
+        if key:
+            grouped.setdefault(key, []).append(row)
+
+    summaries: dict[str, dict[str, Any]] = {}
+    for key, items in grouped.items():
+        sorted_by_revenue = sorted(items, key=lambda item: f(item, "estimated_revenue"), reverse=True)
+        sorted_by_pay = sorted(items, key=lambda item: f(item, pay_col), reverse=True)
+        top_revenue = sorted_by_revenue[0] if sorted_by_revenue else {}
+        top_pay = sorted_by_pay[0] if sorted_by_pay else {}
+        low_price_pay_mix = 0.0
+        zero_price_pay_mix = 0.0
+        for item in items:
+            price = sku_price(item)
+            pay_mix = f(item, "pay_mix")
+            if price is not None and price <= 1:
+                low_price_pay_mix += pay_mix
+            if price == 0:
+                zero_price_pay_mix += pay_mix
+        summaries[key] = {
+            "top_revenue_sku": sku_label(s(top_revenue, "sku")),
+            "top_revenue_mix": f(top_revenue, "revenue_mix"),
+            "top_pay_sku": sku_label(s(top_pay, "sku")),
+            "top_pay_mix": f(top_pay, "pay_mix"),
+            "low_price_pay_mix": low_price_pay_mix,
+            "zero_price_pay_mix": zero_price_pay_mix,
+            "sku_count": len(items),
+        }
+    return summaries
+
+
+def load_sku_summaries(component_paths: dict[str, dict[str, Path]]) -> dict[str, dict[str, dict[str, Any]]]:
+    result: dict[str, dict[str, dict[str, Any]]] = {}
+    member_path = component_paths["member"].get("member_sku_detail") or component_paths["member"].get("sku_detail")
+    if member_path:
+        result["member"] = summarize_sku_rows(read_tsv(member_path), "member_pay_users")
+    first_path = component_paths["first_upsell"].get("sku_detail")
+    if first_path:
+        result["first_upsell"] = summarize_sku_rows(read_tsv(first_path), "pay_users")
+    second_path = component_paths["second_upsell"].get("sku_detail")
+    if second_path:
+        result["second_upsell"] = summarize_sku_rows(read_tsv(second_path), "pay_users")
+    return result
+
+
+def compare_phrase(value: float, baseline: float, label: str, unit: str = "") -> str:
+    delta = value - baseline
+    direction = "高" if delta > 0 else "低"
+    if unit == "pp":
+        return f"{label}{direction}{abs(delta):.2f}pp"
+    if unit == "rel":
+        return f"{label}{direction}{abs(rel_delta(value, baseline)):.1f}%"
+    return f"{label}{direction}{abs(delta):.4f}"
+
+
+def primary_diagnosis(row: dict[str, Any], baseline: dict[str, Any]) -> str:
+    if row["target_key"] == baseline["target_key"]:
+        return "基准样本，用作对照。"
+    total_delta = row["member_plus_all_upsell_arpu_by_ob_user"] - baseline["member_plus_all_upsell_arpu_by_ob_user"]
+    factors = [
+        (abs(row["penetration_rate"] - baseline["penetration_rate"]), compare_phrase(row["penetration_rate"], baseline["penetration_rate"], "渗透率", "pp")),
+        (
+            abs(row["member_product_page_pay_rate"] - baseline["member_product_page_pay_rate"]),
+            compare_phrase(row["member_product_page_pay_rate"], baseline["member_product_page_pay_rate"], "会员商品页付费率", "pp"),
+        ),
+        (
+            abs(row["first_upsell_arpu_by_page_user"] - baseline["first_upsell_arpu_by_page_user"]) * 100,
+            compare_phrase(row["first_upsell_arpu_by_page_user"], baseline["first_upsell_arpu_by_page_user"], "一级增值ARPU/page"),
+        ),
+        (
+            abs(row["second_upsell_arpu_by_page_user"] - baseline["second_upsell_arpu_by_page_user"]) * 100,
+            compare_phrase(row["second_upsell_arpu_by_page_user"], baseline["second_upsell_arpu_by_page_user"], "二级增值ARPU/page"),
+        ),
+        (
+            abs(row["member_plus_all_upsell_arppu_by_authorized_user"] - baseline["member_plus_all_upsell_arppu_by_authorized_user"]),
+            compare_phrase(row["member_plus_all_upsell_arppu_by_authorized_user"], baseline["member_plus_all_upsell_arppu_by_authorized_user"], "授权用户总价值"),
+        ),
+    ]
+    strongest = max(factors, key=lambda item: item[0])[1]
+    direction = "更强" if total_delta > 0 else "更弱"
+    return f"总ARPU/OB {direction} {abs(total_delta):.4f}，最明显差异是{strongest}。"
+
+
+def issue_tags(row: dict[str, Any], min_users: int) -> list[str]:
+    tags: list[str] = []
+    component_min_users = max(30, min_users // 2)
+    if row["ob_users"] < min_users:
+        tags.append("样本量偏小")
+    if row["penetration_rate"] < 5:
+        tags.append("渗透率偏低")
+    if row["member_product_page_pay_rate"] < 5:
+        tags.append("会员商品页付费效率偏低")
+    if row["member_authorization_rate"] < 0.5:
+        tags.append("授权率偏低")
+    if row["first_upsell_page_users"] and row["first_upsell_page_users"] < component_min_users:
+        tags.append("一级增值样本偏小")
+    if row["second_upsell_page_users"] and row["second_upsell_page_users"] < component_min_users:
+        tags.append("二级增值样本偏小")
+    if row["all_upsell_arppu_by_authorized_user"] <= 0:
+        tags.append("增值未回收")
+    if not tags:
+        tags.append("无明显单点异常")
+    return tags
+
+
+def write_report(
+    path: Path,
+    rows: list[dict[str, Any]],
+    component_paths: dict[str, dict[str, Path]],
+    baseline_index: int,
+    min_users: int,
+) -> None:
     lines: list[str] = ["# WebOB Funnel Integrated Diagnosis", ""]
     if not rows:
         lines.append("No data was generated.")
@@ -241,40 +378,71 @@ def write_report(path: Path, rows: list[dict[str, Any]], component_paths: dict[s
         return
 
     best = max(rows, key=lambda row: row["member_plus_all_upsell_arpu_by_ob_user"])
-    baseline = rows[0]
+    baseline = rows[max(0, min(baseline_index - 1, len(rows) - 1))]
+    sku_summaries = load_sku_summaries(component_paths)
+    if best["target_key"] == baseline["target_key"] and len(rows) > 1:
+        runner_up = max(
+            [row for row in rows if row["target_key"] != best["target_key"]],
+            key=lambda row: row["member_plus_all_upsell_arpu_by_ob_user"],
+        )
+        best_lift = rel_delta(best["member_plus_all_upsell_arpu_by_ob_user"], runner_up["member_plus_all_upsell_arpu_by_ob_user"])
+        comparison = f"领先第二名 {runner_up['project']} {runner_up['funnel']} {best_lift:.1f}%"
+    elif best["target_key"] == baseline["target_key"]:
+        comparison = "当前只有一个目标，需补充对照组判断优劣"
+    else:
+        best_lift = rel_delta(best["member_plus_all_upsell_arpu_by_ob_user"], baseline["member_plus_all_upsell_arpu_by_ob_user"])
+        comparison = f"相对基准 {baseline['project']} {baseline['funnel']} 为 {best_lift:+.1f}%"
     lines.append(
         f"一句话结论：按会员+一级增值+二级增值总 ARPU/OB 看，"
-        f"{best['project']} {best['funnel']} 当前最高，为 {best['member_plus_all_upsell_arpu_by_ob_user']:.4f}。"
+        f"{best['project']} {best['funnel']} 当前最高，为 {best['member_plus_all_upsell_arpu_by_ob_user']:.4f}；{comparison}。"
     )
+    lines.extend(["", "## 核心归因", ""])
+    for row in rows:
+        tags = "、".join(issue_tags(row, min_users))
+        lines.append(f"- {row['project']} {row['funnel']}: {primary_diagnosis(row, baseline)} 标签：{tags}。")
+
     lines.extend(["", "## 统一指标表", ""])
     lines.append(
-        "| period | project | funnel | OB用户 | 渗透率 | 会员商品页付费率 | 授权率 | 会员ARPU/OB | 一级增值率 | 一级增值ARPU/page | 二级增值率 | 二级增值ARPU/page | 会员+增值ARPU/OB | 会员+增值ARPPU/授权 | 判断 |"
+        "| period | project | funnel | OB用户 | 渗透率 | 会员商品页付费率 | 授权率 | 会员ARPU/OB | 一级增值率 | 一级增值ARPU/page | 二级增值率 | 二级增值ARPU/page | 会员+增值ARPU/OB | 会员+增值ARPPU/授权 | 诊断 |"
     )
     lines.append("|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
-    for index, row in enumerate(rows):
-        judgment = "基准" if index == 0 else strongest_gap(row, baseline)
+    for row in rows:
+        judgment = "基准" if row["target_key"] == baseline["target_key"] else strongest_gap(row, baseline)
         lines.append(
             "| {period} | {project} | {funnel} | {ob_users} | {penetration_rate:.2f}% | {member_product_page_pay_rate:.2f}% | {member_authorization_rate:.2f}% | {member_arpu_by_ob_user:.4f} | {first_upsell_rate:.2f}% | {first_upsell_arpu_by_page_user:.4f} | {second_upsell_rate:.2f}% | {second_upsell_arpu_by_page_user:.4f} | {member_plus_all_upsell_arpu_by_ob_user:.4f} | {member_plus_all_upsell_arppu_by_authorized_user:.2f} | {judgment} |".format(
                 judgment=judgment, **row
             )
         )
 
-    lines.extend(["", "## 核心问题定位", ""])
+    lines.extend(["", "## SKU 结构摘要", ""])
     for row in rows:
-        weak_points: list[str] = []
-        if row["ob_users"] < 100:
-            weak_points.append("样本量偏小")
-        if row["penetration_rate"] < 20:
-            weak_points.append("OB 到会员页渗透偏低")
-        if row["member_product_page_pay_rate"] < 5:
-            weak_points.append("会员商品页付费效率偏低")
-        if row["all_upsell_arppu_by_authorized_user"] <= 0:
-            weak_points.append("增值未形成授权后回收")
-        elif row["member_plus_all_upsell_arppu_by_authorized_user"] < row["member_arppu_by_pay_user"]:
-            weak_points.append("增值回收不足以抬升授权用户价值")
-        if not weak_points:
-            weak_points.append("暂无单点异常，重点看 SKU 结构与实验目标")
-        lines.append(f"- {row['project']} {row['funnel']}: " + "；".join(weak_points) + "。")
+        key = row["target_key"]
+        parts: list[str] = []
+        for label, source in (("会员", "member"), ("一级增值", "first_upsell"), ("二级增值", "second_upsell")):
+            summary = sku_summaries.get(source, {}).get(key)
+            if not summary:
+                continue
+            low_price = f"，低价/0价支付占比 {summary['low_price_pay_mix']:.1f}%" if summary["low_price_pay_mix"] else ""
+            parts.append(
+                f"{label}收入主SKU {summary['top_revenue_sku']}，收入占比 {summary['top_revenue_mix']:.1f}%"
+                f"，支付主SKU {summary['top_pay_sku']}，支付占比 {summary['top_pay_mix']:.1f}%{low_price}"
+            )
+        lines.append(f"- {row['project']} {row['funnel']}: " + "；".join(parts) + "。")
+
+    lines.extend(["", "## 风险与下一步", ""])
+    for row in rows:
+        next_steps: list[str] = []
+        if row["penetration_rate"] < baseline["penetration_rate"]:
+            next_steps.append("检查 OB 到会员页曝光、国家/流量源 mix、前序页面跳转")
+        if row["member_product_page_pay_rate"] < baseline["member_product_page_pay_rate"]:
+            next_steps.append("检查会员页价格展示、SKU 默认选择、支付按钮与页面性能")
+        if row["second_upsell_arpu_by_page_user"] < baseline["second_upsell_arpu_by_page_user"]:
+            next_steps.append("检查二级增值 SKU 价格/收入结构、低价路径和页面承接")
+        if row["member_plus_all_upsell_arppu_by_authorized_user"] < baseline["member_plus_all_upsell_arppu_by_authorized_user"]:
+            next_steps.append("验证授权用户后续 LTV、退款、续费和增值回收")
+        if not next_steps:
+            next_steps.append("保持当前策略，继续用更长周期验证 LTV、退款和续费")
+        lines.append(f"- {row['project']} {row['funnel']}: " + "；".join(next_steps) + "。")
 
     lines.extend(["", "## 生成文件", ""])
     lines.append(f"- integrated summary: `{path.with_name('webob_funnel_integrated_summary.tsv')}`")
@@ -309,7 +477,7 @@ def main() -> int:
     report_path = output_dir / "webob_funnel_diagnosis_report.md"
     manifest_path = output_dir / "webob_funnel_diagnosis_manifest.json"
     write_tsv(summary_path, rows)
-    write_report(report_path, rows, component_paths)
+    write_report(report_path, rows, component_paths, args.baseline_index, args.min_users)
     manifest_path.write_text(
         json.dumps(
             {
