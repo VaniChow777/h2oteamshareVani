@@ -1,0 +1,33 @@
+{
+  "title": "H2O Team Share Skills",
+  "description": "Team-shareable Codex skills with secrets and local-only paths removed.",
+  "generated_by": "skills/skill-teamizer/scripts/render_skill_readme.py",
+  "category_order": [
+    "业务能力",
+    "汇报总结能力",
+    "AI 使用能力"
+  ],
+  "skills": [
+    {
+      "name": "webob-funnel-diagnosis",
+      "category": "业务能力",
+      "topic": "WebOB / Funnel 分析",
+      "summary": "诊断 WebOB funnel 会员支付、一级增值、二级增值和 SKU 结构表现。",
+      "tags": ["WebOB", "神策", "Funnel"]
+    },
+    {
+      "name": "skill-teamizer",
+      "category": "AI 使用能力",
+      "topic": "Skill 创建与发布治理",
+      "summary": "将个人 skill 转成团队可安装、可发布资产，并维护分类 README。",
+      "tags": ["Skill", "发布", "团队化"]
+    }
+  ],
+  "updates": [
+    {
+      "date": "2026-06-03",
+      "note": "建立团队 skill 分类索引和 README 生成流程。",
+      "skills": ["skill-teamizer"]
+    }
+  ]
+}

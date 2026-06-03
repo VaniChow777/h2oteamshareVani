@@ -7,7 +7,7 @@ description: Convert one or more personal Codex skills into a team-installable s
 
 ## Purpose
 
-Use this skill to turn personal Codex skills into team-installable skills. The standard outcome is a clean skill folder that can be installed by another teammate without the original author's local directories, hidden files, or private credentials.
+Use this skill to turn personal Codex skills into team-installable, publishable skill assets. The standard outcome is a clean skill folder that can be installed by another teammate without the original author's local directories, hidden files, or private credentials, then published to the personal or team backup repository with a categorized README.
 
 ## Core Rules
 
@@ -49,6 +49,10 @@ Use this skill to turn personal Codex skills into team-installable skills. The s
    - Use the GitHub skill backup workflow when publishing selected local skills.
    - After adding the new skill, delete superseded old skills from the backup workspace only when the user asked for repository减法.
    - Check `git status --short`, `git diff --stat`, and secret/path scans before push.
+7. Maintain repository presentation:
+   - Keep `skill-index.json` at the repository root as the source of truth for category, topic, summary, tags, and update notes.
+   - Generate `README.md` with `scripts/render_skill_readme.py`.
+   - Use the user's primary categories: `业务能力`, `汇报总结能力`, and `AI 使用能力`.
 
 ## Audit Commands
 
@@ -59,6 +63,20 @@ python3 scripts/audit_skill.py /path/to/skill-or-repo
 ```
 
 Use the manual checklist in `references/teamization_checklist.md` when the audit finds issues or the skill has custom deployment needs.
+
+## README Publishing
+
+When a skill is added, removed, renamed, or reclassified in a backup repository:
+
+```bash
+python3 skills/skill-teamizer/scripts/render_skill_readme.py . --strict
+```
+
+Before pushing, confirm the generated README matches the intended publishing target:
+
+- Personal repo `codexgalaxy777`: may include personal-only skills, but still must not include secrets.
+- Team repo `h2oteamshareVani`: include only team-shareable skills and team-safe context.
+- If a skill appears in both repos, keep its category/topic consistent unless the audience needs a different presentation.
 
 ## Git Publishing
 

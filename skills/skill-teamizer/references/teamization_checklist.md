@@ -44,7 +44,8 @@
 
 - New skill added to the target backup repository.
 - Superseded old skills removed only when requested.
-- `README.md` skill list reflects the final set.
+- Root `skill-index.json` reflects the final skill set, categories, topics, summaries, tags, and update notes.
+- `README.md` is regenerated from `skill-index.json`.
 - `git status --short` is clean before and after push.
 - Push target and branch are verified.
 - Commit identity warning is reported if git auto-generates author identity.
