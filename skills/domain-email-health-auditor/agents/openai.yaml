@@ -1,0 +1,4 @@
+interface:
+  display_name: "Domain Email Health Auditor"
+  short_description: "Audit domains, web UX, and mail"
+  default_prompt: "Audit these domains for website experience, payment-path risk, domain health, and customer-service mailbox deliverability. Report risks, evidence, user/payment impact, and remediation steps."

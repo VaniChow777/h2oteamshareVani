@@ -1,0 +1,7 @@
+interface:
+  display_name: "Quiz Funnel Compare"
+  short_description: "Compare quiz funnels and pricing"
+  default_prompt: "Use $quiz-funnel-compare to compare these funnel URLs by quiz flow, branch logic, sales route, pricing model, and upsells."
+
+policy:
+  allow_implicit_invocation: true

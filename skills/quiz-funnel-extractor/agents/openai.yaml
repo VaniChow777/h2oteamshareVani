@@ -1,0 +1,7 @@
+interface:
+  display_name: "Quiz Funnel Extractor"
+  short_description: "Extract quiz flows and price ladders"
+  default_prompt: "Use $quiz-funnel-extractor to extract the quiz flow, branches, sales funnel, and pricing model from this URL."
+
+policy:
+  allow_implicit_invocation: true

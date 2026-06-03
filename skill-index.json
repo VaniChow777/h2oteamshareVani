@@ -16,6 +16,34 @@
       "tags": ["WebOB", "神策", "Funnel"]
     },
     {
+      "name": "domain-email-health-auditor",
+      "category": "业务能力",
+      "topic": "域名与增长基础设施",
+      "summary": "审计域名健康、网站体验、支付链路风险和客服邮箱送达能力。",
+      "tags": ["域名", "邮箱", "支付"]
+    },
+    {
+      "name": "quiz-funnel-extractor",
+      "category": "业务能力",
+      "topic": "竞品 Quiz Funnel 分析",
+      "summary": "抽取竞品 quiz funnel 的问题、分支、销售链路、价格和 upsell。",
+      "tags": ["竞品", "Quiz", "Funnel"]
+    },
+    {
+      "name": "quiz-funnel-compare",
+      "category": "业务能力",
+      "topic": "竞品 Quiz Funnel 分析",
+      "summary": "对多个竞品 quiz funnel 做流程、分支、价格和转化模式对比。",
+      "tags": ["竞品", "Quiz", "Funnel"]
+    },
+    {
+      "name": "webob-weekly-report",
+      "category": "汇报总结能力",
+      "topic": "周报与经营复盘",
+      "summary": "拉取 Daily Yoga WebOB 周报数据，同步飞书多维表格并推送企业微信摘要。",
+      "tags": ["WebOB", "周报", "飞书"]
+    },
+    {
       "name": "skill-teamizer",
       "category": "AI 使用能力",
       "topic": "Skill 创建与发布治理",
@@ -24,6 +52,11 @@
     }
   ],
   "updates": [
+    {
+      "date": "2026-06-03",
+      "note": "同步 WebOB、域名健康、竞品 Quiz Funnel 和周报相关 skill 到团队仓库。",
+      "skills": ["webob-funnel-diagnosis", "domain-email-health-auditor", "quiz-funnel-compare", "quiz-funnel-extractor", "webob-weekly-report"]
+    },
     {
       "date": "2026-06-03",
       "note": "建立团队 skill 分类索引和 README 生成流程。",

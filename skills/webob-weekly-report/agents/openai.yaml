@@ -1,0 +1,3 @@
+display_name: WebOB Weekly Report
+short_description: Sync webob metrics to Bitable/Qiwei.
+default_prompt: 使用神策 OpenAPI API Key 拉取 webob 周报数据，并按需整理到指定飞书周报文档。
